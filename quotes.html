@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Motivational Quotes</title>
+  <style>
+    /* General body styling */
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://source.unsplash.com/random/1920x1080?inspiration') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Container styling */
+    .container {
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 15px;
+      padding: 30px;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      animation: fadeIn 2s;
+    }
+
+    #quote {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-style: italic;
+      animation: fadeIn 3s;
+    }
+
+    /* Time styling */
+    #time-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #timezones {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    #time-display {
+      margin-top: 15px;
+      font-size: 1.25rem;
+      background: linear-gradient(90deg, #ff6f91, #ff9671);
+      padding: 15px;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Motivational Quote</h1>
+    <p id="quote"></p>
+
+    <div id="time-container">
+      <h2>Select a Time Zone</h2>
+      <select id="timezones" onchange="updateTime()"></select>
+      <p id="time-display"></p>
+    </div>
+
+    <footer>
+      <p>© 2024 Motivational Quotes | Inspiring Daily</p>
+    </footer>
+  </div>
+
+  <script>
+    const quotes = [
+      "Believe in yourself and all that you are.",
+      "Your limitation—it’s only your imagination.",
+      "Push yourself, because no one else is going to do it for you.",
+      "Great things never come from comfort zones.",
+      "Success doesn’t just find you. You have to go out and get it.",
+      "The harder you work for something, the greater you’ll feel when you achieve it.",
+      "Don’t stop when you’re tired. Stop when you’re done.",
+      "Dream it. Wish it. Do it.",
+      "Sometimes later becomes never. Do it now.",
+      "Little things make big days.",
+      "It’s going to be hard, but hard does not mean impossible.",
+      "Don’t wait for opportunity. Create it.",
+      "Dream bigger. Do bigger.",
+      "You can if you think you can.",
+      "Stay positive, work hard, make it happen.",
+      "Wake up with determination. Go to bed with satisfaction.",
+      "Do something today that your future self will thank you for.",
+      "Discipline is the bridge between goals and accomplishment.",
+      "The key to success is to focus on goals, not obstacles.",
+      "Hardships often prepare ordinary people for an extraordinary destiny."
+    ];
+
+    const timeZones = Intl.supportedValuesOf("timeZone");
+
+    function populateTimeZones() {
+      const select = document.getElementById("timezones");
+      timeZones.forEach(zone => {
+        const option = document.createElement("option");
+        option.value = zone;
+        option.textContent = zone.replace("_", " ");
+        select.appendChild(option);
+      });
+    }
+
+    function getDailyQuote() {
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      const quoteIndex = dayOfYear % quotes.length;
+      return quotes[quoteIndex];
+    }
+
+    function updateTime() {
+      const timeZone = document.getElementById("timezones").value;
+      const currentDate = new Date();
+
+      const options = {
+        timeZone,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      };
+
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      document.getElementById("time-display").innerText = `Time in ${timeZone.replace("_", " ")}: ${formatter.format(currentDate)}`;
+    }
+
+    // Populate the quote and time zone dropdown
+    document.getElementById("quote").innerText = getDailyQuote();
+    populateTimeZones();
+
+    // Initial time update
+    updateTime();
+  </script>
+</body>
+</html>
