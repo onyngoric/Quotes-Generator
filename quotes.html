@@ -3,105 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Motivational Quotes</title>
+  <title>Motivational Quotes</title>
   <style>
-    /* General styling */
+    /* General Styling */
     body {
-      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom right, #1c1c1c, #3d3d3d);
-      color: #ffffff;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      color: #fff;
+      background: #1a1a2e;
       overflow: hidden;
     }
 
-    /* Main container */
+    /* Minimalistic Animated Background */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #2c5364, #203a43, #0f2027);
+      animation: gradientMove 10s infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
     .container {
       text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      max-width: 600px;
-      width: 90%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-      color: #ffda79;
+      font-size: 2.5rem;
+      margin: 0 0 20px;
     }
 
-    /* Minimalistic quote styling */
     #quote {
       font-size: 1.5rem;
-      line-height: 1.8;
-      margin-bottom: 20px;
-      color: #ffffff;
       font-style: italic;
-      background: linear-gradient(to right, #ff6f91, #ffc371);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fadeIn 3s ease;
-    }
-
-    /* Time container styling */
-    #time-container {
-      margin-top: 20px;
-    }
-
-    #timezones {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #555;
-      background-color: #2e2e2e;
-      color: #fff;
-      outline: none;
-      cursor: pointer;
-      margin-bottom: 15px;
+      margin: 20px 0;
+      color: #ffda79;
     }
 
     #clock {
-      font-size: 2rem;
-      color: #ffda79;
-      font-weight: bold;
+      font-size: 3rem;
       margin-top: 20px;
-      animation: fadeIn 1.5s ease;
+      font-weight: bold;
+      color: #00d1b2;
+    }
+
+    #timezones {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: #34495e;
+      color: #fff;
     }
 
     footer {
-      margin-top: 20px;
-      font-size: 0.8rem;
-      color: #aaaaaa;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
+  <div class="background"></div>
   <div class="container">
     <h1>Daily Motivation</h1>
     <p id="quote"></p>
-
-    <div id="time-container">
-      <h2>Time Zone</h2>
-      <select id="timezones" onchange="updateClock()"></select>
-      <div id="clock"></div>
-    </div>
-
+    <select id="timezones" onchange="updateClock()"></select>
+    <div id="clock"></div>
     <footer>
       Made with ❤️ by Onyangoric
     </footer>
-
   </div>
 
   <script>
@@ -111,21 +105,7 @@
       "Push yourself, because no one else is going to do it for you.",
       "Great things never come from comfort zones.",
       "Success doesn’t just find you. You have to go out and get it.",
-      "The harder you work for something, the greater you’ll feel when you achieve it.",
-      "Don’t stop when you’re tired. Stop when you’re done.",
-      "Dream it. Wish it. Do it.",
-      "Sometimes later becomes never. Do it now.",
-      "Little things make big days.",
-      "It’s going to be hard, but hard does not mean impossible.",
-      "Don’t wait for opportunity. Create it.",
-      "Dream bigger. Do bigger.",
-      "You can if you think you can.",
-      "Stay positive, work hard, make it happen.",
-      "Wake up with determination. Go to bed with satisfaction.",
-      "Do something today that your future self will thank you for.",
-      "Discipline is the bridge between goals and accomplishment.",
-      "The key to success is to focus on goals, not obstacles.",
-      "Hardships often prepare ordinary people for an extraordinary destiny."
+      "Dream it. Wish it. Do it."
     ];
 
     const timeZones = Intl.supportedValuesOf("timeZone");
@@ -142,32 +122,25 @@
 
     function getDailyQuote() {
       const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-      const quoteIndex = dayOfYear % quotes.length;
-      return quotes[quoteIndex];
+      return quotes[dayOfYear % quotes.length];
     }
 
     function updateClock() {
       const timeZone = document.getElementById("timezones").value || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-      const update = () => {
-        const now = new Date().toLocaleString('en-US', { timeZone });
-        const [date, time] = now.split(", ");
-        document.getElementById("clock").innerHTML = `
-          ${time}
-          <div style="font-size: 1rem; margin-top: 5px; opacity: 0.8;">${date}</div>
-        `;
-      };
-
-      update();
-      setInterval(update, 1000); // Update every second
+      const now = new Date().toLocaleString("en-US", {
+        timeZone,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
+      document.getElementById("clock").textContent = now;
     }
 
-    // Populate the quote and time zone dropdown
-    document.getElementById("quote").innerText = getDailyQuote();
+    document.getElementById("quote").textContent = getDailyQuote();
     populateTimeZones();
-
-    // Initial clock update
-    updateClock();
+    setInterval(updateClock, 1000);
+    updateClock(); // Initialize clock on load
   </script>
 </body>
 </html>
