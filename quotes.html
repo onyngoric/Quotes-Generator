@@ -5,76 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Motivational Quotes</title>
   <style>
-    /* General body styling */
+    /* General styling */
     body {
-      font-family: 'Poppins', Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      height: 100vh;
+      background: linear-gradient(to bottom right, #1c1c1c, #3d3d3d);
+      color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: url('https://source.unsplash.com/random/1920x1080?inspiration') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+      height: 100vh;
       overflow: hidden;
     }
 
-    /* Container styling */
+    /* Main container */
     .container {
-      background: rgba(0, 0, 0, 0.75);
-      border-radius: 15px;
-      padding: 30px;
-      width: 90%;
-      max-width: 600px;
       text-align: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 90%;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 15px;
-      animation: fadeIn 2s;
+      color: #ffda79;
     }
 
+    /* Minimalistic quote styling */
     #quote {
       font-size: 1.5rem;
+      line-height: 1.8;
       margin-bottom: 20px;
-      line-height: 1.6;
+      color: #ffffff;
       font-style: italic;
-      animation: fadeIn 3s;
+      background: linear-gradient(to right, #ff6f91, #ffc371);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeIn 3s ease;
     }
 
-    /* Time styling */
+    /* Time container styling */
     #time-container {
       margin-top: 20px;
-      text-align: center;
     }
 
     #timezones {
       padding: 10px;
       font-size: 1rem;
       border-radius: 5px;
-      border: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border: 1px solid #555;
+      background-color: #2e2e2e;
+      color: #fff;
+      outline: none;
+      cursor: pointer;
+      margin-bottom: 15px;
     }
 
     #time-display {
-      margin-top: 15px;
       font-size: 1.25rem;
-      background: linear-gradient(90deg, #ff6f91, #ff9671);
-      padding: 15px;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      animation: pulse 2s infinite;
+      color: #ffda79;
     }
 
     footer {
-      margin-top: 30px;
-      font-size: 0.9rem;
-      color: #ccc;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #aaaaaa;
     }
 
     /* Animations */
@@ -84,24 +84,24 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Daily Motivational Quote</h1>
+    <h1>Daily Motivation</h1>
     <p id="quote"></p>
 
     <div id="time-container">
-      <h2>Select a Time Zone</h2>
+      <h2>Time Zone</h2>
       <select id="timezones" onchange="updateTime()"></select>
       <p id="time-display"></p>
     </div>
 
     <footer>
-      <p>© 2024 Motivational Quotes | Inspiring Daily</p>
+      © 2024 Daily Motivation | Minimalistic Design
     </footer>
   </div>
 
@@ -136,7 +136,7 @@
       timeZones.forEach(zone => {
         const option = document.createElement("option");
         option.value = zone;
-        option.textContent = zone.replace("_", " ");
+        option.textContent = zone.replace(/_/g, " ");
         select.appendChild(option);
       });
     }
@@ -160,7 +160,7 @@
       };
 
       const formatter = new Intl.DateTimeFormat('en-US', options);
-      document.getElementById("time-display").innerText = `Time in ${timeZone.replace("_", " ")}: ${formatter.format(currentDate)}`;
+      document.getElementById("time-display").innerText = `Time in ${timeZone.replace(/_/g, " ")}: ${formatter.format(currentDate)}`;
     }
 
     // Populate the quote and time zone dropdown
