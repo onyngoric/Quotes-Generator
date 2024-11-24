@@ -66,9 +66,12 @@
       margin-bottom: 15px;
     }
 
-    #time-display {
-      font-size: 1.25rem;
+    #clock {
+      font-size: 2rem;
       color: #ffda79;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: fadeIn 1.5s ease;
     }
 
     footer {
@@ -82,11 +85,6 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
   </style>
 </head>
 <body>
@@ -96,13 +94,14 @@
 
     <div id="time-container">
       <h2>Time Zone</h2>
-      <select id="timezones" onchange="updateTime()"></select>
-      <p id="time-display"></p>
+      <select id="timezones" onchange="updateClock()"></select>
+      <div id="clock"></div>
     </div>
 
     <footer>
-      © 2024 Daily Motivation | Minimalistic Design
+      Made with ❤️ by Onyangoric
     </footer>
+
   </div>
 
   <script>
@@ -147,28 +146,28 @@
       return quotes[quoteIndex];
     }
 
-    function updateTime() {
-      const timeZone = document.getElementById("timezones").value;
-      const currentDate = new Date();
+    function updateClock() {
+      const timeZone = document.getElementById("timezones").value || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const options = {
-        timeZone,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
+      const update = () => {
+        const now = new Date().toLocaleString('en-US', { timeZone });
+        const [date, time] = now.split(", ");
+        document.getElementById("clock").innerHTML = `
+          ${time}
+          <div style="font-size: 1rem; margin-top: 5px; opacity: 0.8;">${date}</div>
+        `;
       };
 
-      const formatter = new Intl.DateTimeFormat('en-US', options);
-      document.getElementById("time-display").innerText = `Time in ${timeZone.replace(/_/g, " ")}: ${formatter.format(currentDate)}`;
+      update();
+      setInterval(update, 1000); // Update every second
     }
 
     // Populate the quote and time zone dropdown
     document.getElementById("quote").innerText = getDailyQuote();
     populateTimeZones();
 
-    // Initial time update
-    updateTime();
+    // Initial clock update
+    updateClock();
   </script>
 </body>
 </html>
